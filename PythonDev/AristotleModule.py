@@ -1,7 +1,4 @@
 
-import requests
-import json
-import collections
 import ipaddress
 
 
@@ -14,13 +11,14 @@ def userIpInput():
     ipD = input("\n Please enter value of the fourth octet in binary...")
 
     ip = ipA + "." + ipB + "." + ipC + "." + ipD
+    print(ipaddress.ip_address(ip))
     print("The given ip is " + ip)
     return ip
 
-def request_new_connection(sourceIp, sourcePort, destPort):
+def request_new_connection(sourceIp, sourcePort, destIp, destPort):
 
 
-    print("\n The results of the scan will be shortly available on the link below: ")
+    print("\nYour data is now saved as  sourceIp = {}, sourcePort = {}, destIp = {}, destPort = {}. \n".format(sourceIp, sourcePort, destIp, destPort))
 
 
 
@@ -44,16 +42,23 @@ def menu():
         elif menu_choice == 1:
             print("\n Please provide the sourceIP in binary form octet by octet....")
             sourceIp = userIpInput()
+
+
+            menu()
+
+        elif menu_choice == 2:
             print("\n Please provide the sourceIP in binary form octet by octet....")
+            sourceIp = userIpInput()
+            print("\n Please provide the dstIP in binary form octet by octet....")
             destIp = userIpInput()
             sourcePort = input("\nWhat is source port)\n")
             destPort = input("\nWhat is source port)\n")
             request_new_connection(sourceIp, sourcePort, destIp, destPort)
             menu()
-        elif menu_choice == 2:
-
-            menu()
         elif menu_choice == 3:
+            sourcePort = input("\nWhat is source port)\n")
+            destPort = input("\nWhat is source port)\n")
+            print("\nYour data is now saved as  sourceIp = {}, sourcePort = {}\n".format(sourcePort, destPort))
 
             menu()
         elif menu_choice == 4:
