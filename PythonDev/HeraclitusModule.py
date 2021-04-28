@@ -1,5 +1,26 @@
 
 import ipaddress
+import pandas
+
+def get_server_list():
+    fileName = "serverList.csv"
+    df = pandas.read_csv(fileName)
+    return df
+
+def get_serverIp_by_destPort(destPort, df):
+    #df[df.Letters == 'C'].Letters.item()
+    #df.loc[df['favorite_color'] == 'yellow']
+    #print (df.loc[df.name == 'george', 'age'].iat[0])
+
+    print( df.loc[df['destPort'] == int(destPort)] )
+    serverIp = df.loc[df['destPort']== int(destPort), 'serverIp'].iat[0]
+    print(serverIp)
+    return serverIp
+
+def ramdom_ephimeralPort_selection():
+    return ramdomEphimeralPort
+
+
 
 
 
@@ -7,12 +28,14 @@ import ipaddress
 
 def menu():
     loop_condition = True
+    df = get_server_list()
+
 
     while loop_condition:
         print("\nWelcome to HeraclitusModule\n")
         print("\nPlease enter a number for what you want to do.\n")
         print("Enter 1 Request a new Subnet")
-        print("Enter 2 ....")
+        print("Enter 2 Update serverList")
         print("Enter 3 ....")
         print("Enter 4 .....")
         print("Enter 5 ....")
@@ -29,10 +52,15 @@ def menu():
 
             print("\nYour data is now saved as  aristotleHash = {}, destPort = {}. \n".format(
                 aristotleHash, destPort))
+
+            serverIp = get_serverIp_by_destPort(destPort, df)
+            print("\nYour data is now saved as ServerIp = {}, destPort = {}. \n".format(
+                serverIp, destPort))
+
             menu()
 
         elif menu_choice == 2:
-# using 2 for testing
+            get_server_list()
 
             menu()
         elif menu_choice == 3:

@@ -3,7 +3,9 @@ import ipaddress
 import uuid
 
 secretHashSeed = '00010203-0405-0607-0809-0a0b0c0d0e0f'
-nextAvailableNat1sourceIp = "10.0.0.1"
+
+#we are simulating the fist natting on the external firewall
+#10.0.0.1 is the first nattable address and they will be used sequentially
 
 
 def userIpInput():
@@ -29,15 +31,18 @@ def request_new_connection(sourceIp, sourcePort, destIp, destPort, nextAvailable
     AristotleHash = hash_creator(sourceIp, sourcePort)
     print(AristotleHash)
     nat1SourceIP = nextAvailableNat1sourceIp
-    nextAvailableNat1sourceIp += nextAvailableNat1sourceIp
     print("\nYour data is now saved as    nat1SourceIP = {}, nextAvailableNat1sourceIp  = {}. \n".format(  nat1SourceIP , nextAvailableNat1sourceIp))
     print("\nWe can now pass HeraclitusModule   nat1SourceIP = {}, AristotleHash  = {}. \n".format(  nat1SourceIP , AristotleHash))
 
 
+
+
 def menu():
     loop_condition = True
+    nextAvailableNat1sourceIp = ipaddress.IPv4Address('10.0.0.1')
 
     while loop_condition:
+        print(nextAvailableNat1sourceIp)
         print("\nWelcome to AristotleModule\n")
         print("\nPlease enter a number for what you want to do.\n")
         print("Enter 1 Request a new connection")
@@ -59,9 +64,10 @@ def menu():
             destIp = userIpInput()
             sourcePort = input("\nWhat is source port)\n")
             destPort = input("\nWhat is source port)\n")
-            request_new_connection(sourceIp, sourcePort, destIp, destPort)
+            request_new_connection(sourceIp, sourcePort, destIp, destPort, nextAvailableNat1sourceIp)
             print("\nYour data is now saved as    nextAvailableNat1sourceIp  = {}. \n".format(
                 nextAvailableNat1sourceIp))
+            nextAvailableNat1sourceIp = nextAvailableNat1sourceIp + 1
             menu()
 
         elif menu_choice == 2:
