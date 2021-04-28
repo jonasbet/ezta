@@ -1,6 +1,7 @@
 
 import ipaddress
 import pandas
+import random
 
 def get_server_list():
     fileName = "serverList.csv"
@@ -18,6 +19,9 @@ def get_serverIp_by_destPort(destPort, df):
     return serverIp
 
 def ramdom_ephimeralPort_selection():
+    #49152-65535
+    ramdomEphimeralPort = random.randint(49152, 65535)
+    print(ramdomEphimeralPort)
     return ramdomEphimeralPort
 
 
@@ -60,7 +64,7 @@ def menu():
             menu()
 
         elif menu_choice == 2:
-            get_server_list()
+            ramdom_ephimeralPort_selection()
 
             menu()
         elif menu_choice == 3:
