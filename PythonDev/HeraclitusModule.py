@@ -78,6 +78,7 @@ def menu():
             heraclitusPort = get_ramdom_ephimeralPort_selection()
             print("\nYour data is now saved as ServerIp = {}, destPort = {}, ServerPort = {}, heraclitusIp = {}, \
             heraclitusPort = {}. \n".format( serverIp, destPort, serverPort, heraclitusIp, heraclitusPort))
+
             write_line_HeraclitusMapping("heraclitusMapping.csv", aristotleHash, serverIp, destPort, serverPort, heraclitusIp,
                                          heraclitusPort)
 
