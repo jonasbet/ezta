@@ -13,17 +13,7 @@ fileName = 'aristotleMapping.csv'
 
 
 
-
-def add_heraclitusIp_by_aristotleHash2(aristotleHash, heraclitusIp, df):
-    #df[df.Letters == 'C'].Letters.item()
-    #df.loc[df['favorite_color'] == 'yellow']
-    #print (df.loc[df.name == 'george', 'age'].iat[0])
-
-    print( df.loc[df['aristotleHash'] == aristotleHash] )
-    print("This {}".format( heraclitusIp))
-
-    #https://www.geeksforgeeks.org/update-column-value-of-csv-in-python/
-    
+    #https://www.geeksforgeeks.org/update-column-value-of-csv-in-python/  
 # importing the pandas library
 #import pandas as pd
   # reading the csv file
@@ -33,6 +23,20 @@ def add_heraclitusIp_by_aristotleHash2(aristotleHash, heraclitusIp, df):
   # writing into the file
 #df.to_csv("AllDetails.csv", index=False)
   #print(df)
+
+def add_heraclitusIp_by_aristotleHash(fileName, aristotleHash, heraclitusIp, df):
+    #df[df.Letters == 'C'].Letters.item()
+    #df.loc[df['favorite_color'] == 'yellow']
+    #print (df.loc[df.name == 'george', 'age'].iat[0])
+
+    print( df.loc[df['aristotleHash'] == aristotleHash] )
+    print("This {}".format( heraclitusIp))
+    
+    df['heraclitusIp'] = df['heraclitusIp'].replace({aristotleHash: heraclitusIp})
+    # writing into the file
+    df.to_csv(fileName, index=False)
+    print(df)
+
 
 
 def add_heraclitusIp_by_aristotleHash(aristotleHash, heraclitusIp, df):
@@ -86,8 +90,10 @@ def request_new_connection(sourceIp, sourcePort, destIp, destPort, nextAvailable
     #this translation is done automatically on the firewall = not managed by this module
     #it will be increased sequentially just to reproduce this compexity on the module
     aristotleIp = nextAvailableNat1sourceIp
-    #herclitusIp will generated on heraclitusModule at a later stage
-    heraclitusIp = 'null'
+    #herclitusIp will generated on heraclitusModule at a later stage 
+    #so far we use the uniquesness of aristotleIp to make the change for heraclitusIp later as the
+    #value is received from heraclitusModule
+    heraclitusIp = aristotleIp
 
     print("\nYour data is now saved as  sourceIp = {}, sourcePort = {}, destIp = {}, destPort = {}. \n".format(sourceIp, sourcePort, destIp, destPort))
     aristotleHash = hash_creator(sourceIp, sourcePort)
@@ -149,7 +155,7 @@ def menu():
         elif menu_choice == 4:
             aristotleHash = input("\nWhat is AristotleHash you want to update?)\n")
             heraclitusIp = input("\nWhat is HeraclitusIp you want to add to the Aristotle hash {}?)\n".format(aristotleHash))
-            add_heraclitusIp_by_aristotleHash2(aristotleHash, heraclitusIp, aristotleMapping)
+            add_heraclitusIp_by_aristotleHash2(filenName, aristotleHash, heraclitusIp, aristotleMapping)
 
             menu()
         elif menu_choice == 5:
