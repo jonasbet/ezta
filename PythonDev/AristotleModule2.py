@@ -13,6 +13,28 @@ fileName = 'aristotleMapping.csv'
 
 
 
+
+def add_heraclitusIp_by_aristotleHash2(aristotleHash, heraclitusIp, df):
+    #df[df.Letters == 'C'].Letters.item()
+    #df.loc[df['favorite_color'] == 'yellow']
+    #print (df.loc[df.name == 'george', 'age'].iat[0])
+
+    print( df.loc[df['aristotleHash'] == aristotleHash] )
+    print("This {}".format( heraclitusIp))
+
+    #https://www.geeksforgeeks.org/update-column-value-of-csv-in-python/
+    
+# importing the pandas library
+#import pandas as pd
+  # reading the csv file
+#df = pd.read_csv("AllDetails.csv")
+  # updating the column value/data
+#df['Status'] = df['Status'].replace({'P': 'A'})
+  # writing into the file
+#df.to_csv("AllDetails.csv", index=False)
+  #print(df)
+
+
 def add_heraclitusIp_by_aristotleHash(aristotleHash, heraclitusIp, df):
     #df[df.Letters == 'C'].Letters.item()
     #df.loc[df['favorite_color'] == 'yellow']
@@ -125,6 +147,9 @@ def menu():
 
             menu()
         elif menu_choice == 4:
+            aristotleHash = input("\nWhat is AristotleHash you want to update?)\n")
+            heraclitusIp = input("\nWhat is HeraclitusIp you want to add to the Aristotle hash {}?)\n".format(aristotleHash))
+            add_heraclitusIp_by_aristotleHash2(aristotleHash, heraclitusIp, aristotleMapping)
 
             menu()
         elif menu_choice == 5:
