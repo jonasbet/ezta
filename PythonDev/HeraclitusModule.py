@@ -4,6 +4,19 @@ import pandas
 import random
 import csv
 
+
+def get_export_Coehloline_with_aristotleHash(aristotleHash, df):
+    print(df)
+#aristotleHash,serverIp,destPort,serverPort,heraclitusIp,heraclitusPort
+    serverIp = df.loc[df['aristotleHash']== aristotleHash, 'serverIp'].iat[0]
+    destPort = str(df.loc[df['aristotleHash'] == aristotleHash, 'destPort'].iat[0])
+    serverPort = str(df.loc[df['aristotleHash']== aristotleHash, 'serverPort'].iat[0])
+    heraclitusIp = df.loc[df['aristotleHash']== aristotleHash, 'heraclitusIp'].iat[0]
+    heraclitusPort = str(df.loc[df['aristotleHash']== aristotleHash, 'heraclitusPort'].iat[0])
+    oneLineExport = aristotleHash + '#' + serverIp + '#' + destPort + '#' +\
+    serverPort + '#' + heraclitusIp  +   '#' +  heraclitusPort
+    print( oneLineExport )
+
 def get_csv_file(fileName):
     df = pandas.read_csv(fileName)
     return df
@@ -46,7 +59,8 @@ def write_line_HeraclitusMapping(fileName, aristotleHash, serverIp, destPort, se
 def menu():
     loop_condition = True
     serverList = get_csv_file("serverList.csv")
-    heraclitusMapping = get_csv_file("heraclitusMapping.csv")
+    fileName = "heraclitusMapping.csv"
+    heraclitusMapping = get_csv_file(fileName)
 
 
 
@@ -79,9 +93,10 @@ def menu():
             print("\nYour data is now saved as ServerIp = {}, destPort = {}, ServerPort = {}, heraclitusIp = {}, \
             heraclitusPort = {}. \n".format( serverIp, destPort, serverPort, heraclitusIp, heraclitusPort))
 
-            write_line_HeraclitusMapping("heraclitusMapping.csv", aristotleHash, serverIp, destPort, serverPort, heraclitusIp,
+            write_line_HeraclitusMapping(fileName, aristotleHash, serverIp, destPort, serverPort, heraclitusIp,
                                          heraclitusPort)
-
+            heraclitusMapping = get_csv_file(fileName)
+            get_export_Coehloline_with_aristotleHash(aristotleHash, heraclitusMapping)
             menu()
 
         elif menu_choice == 2:

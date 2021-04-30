@@ -33,9 +33,9 @@ def get_export_Coehloline_with_aristotleHash(aristotleHash, df):
     aristotleIp = df.loc[df['aristotleHash']== aristotleHash, 'aristotleIp'].iat[0]
     destPort = df.loc[df['aristotleHash']== aristotleHash, 'aristotleIp'].iat[0]
     heraclitusIp = df.loc[df['aristotleHash']== aristotleHash, 'aristotleIp'].iat[0]
-    oneLineExport = aristotleHash + '#' + sourceIp + '#' + sourcePort
-    twoLineExpor =     aristotleIp + '#'  +  destIp + '#' + aristotleIp +'#' + destPort + '#' + heraclitusIp
-    print( oneLineExport + twoLineExpor)
+    oneLineExport = aristotleHash + '#' + sourceIp + '#' + sourcePort +\
+      aristotleIp + '#'  +  destIp + '#' + aristotleIp +'#' + destPort + '#' + heraclitusIp
+    print( oneLineExport )
 
 
 def add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, df):
@@ -150,6 +150,7 @@ def menu():
             print("\nYour data is now saved as    nextAvailableNat1sourceIp  = {}. \n".format(
                 nextAvailableNat1sourceIp))
             nextAvailableNat1sourceIp = nextAvailableNat1sourceIp + 1
+
             menu()
 
         elif menu_choice == 2:
