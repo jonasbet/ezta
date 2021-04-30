@@ -1,4 +1,4 @@
-aristotleHash,sourceIp, sourcePort, destIp, aristotleIp,destPort,heraclitusIp
+aristotleHash,sourceIp,sourcePort,destIp,aristotleIp,destPort,heraclitusIp
 1,1.1.1.1,80,2.2.2.2,10.0.0.1,80,
 95ec14b1-d7cb-3265-8db2-9d560600d72b,1.1.1.1,43,2.2.2.2,10.0.0.1,43,
 2334036c-88f5-3912-b648-60be270c7b84,9.9.9.9,443,4.4.4.4,10.0.0.1,80,

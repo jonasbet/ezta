@@ -23,9 +23,20 @@ fileName = 'aristotleMapping.csv'
 #df.to_csv("AllDetails.csv", index=False)
   #print(df)
 
-def export_Coehlo(aristotleHash, df):
-    oneLineExport = df.loc[df['aristotleHash'] == aristotleHash]
-    return oneLineExport
+def get_export_Coehloline_with_aristotleHash(aristotleHash, df):
+    #oneLineExport = df.loc[df['aristotleHash'] == aristotleHash]
+    #'aristotleHash','sourceIp', 'sourcePort', 'destIp', 'aristotleIp','destPort','heraclitusIp'
+    #serverIp = df.loc[df['destPort']== int(destPort), 'serverIp'].iat[0]
+    sourceIp = df.loc[df['aristotleHash']== aristotleHash, 'sourceIp'].iat[0]
+    sourcePort = str(df.loc[df['aristotleHash']== aristotleHash, 'sourcePort'].iat[0])
+    destIp = df.loc[df['aristotleHash']== aristotleHash, 'destIp'].iat[0]
+    aristotleIp = df.loc[df['aristotleHash']== aristotleHash, 'aristotleIp'].iat[0]
+    destPort = df.loc[df['aristotleHash']== aristotleHash, 'aristotleIp'].iat[0]
+    heraclitusIp = df.loc[df['aristotleHash']== aristotleHash, 'aristotleIp'].iat[0]
+    oneLineExport = aristotleHash + '#' + sourceIp + '#' + sourcePort
+    twoLineExpor =     aristotleIp + '#'  +  destIp + '#' + aristotleIp +'#' + destPort + '#' + heraclitusIp
+    print( oneLineExport + twoLineExpor)
+
 
 def add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, df):
     #df[df.Letters == 'C'].Letters.item()
@@ -41,9 +52,8 @@ def add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, df):
     print( df.loc[df['aristotleHash'] == aristotleHash] )
     # writing into the file
     df.to_csv(fileName, index=False)
-    print(df)
-    oneLineExport = export_Coehlo(aristotleHash, df)
-    print("You can now this the line below to export this info to CoelhoModule \n{} ".format(oneLineExport))
+    get_export_Coehloline_with_aristotleHash(aristotleHash, df)
+
 
 
 
@@ -60,7 +70,7 @@ def userIpInput():
     ipD = input("\n Please enter value of the fourth octet in binary...")
 
     ip = ipA + "." + ipB + "." + ipC + "." + ipD
-    print(ipaddress.ip_address(ip))
+   # print(ipaddress.ip_address(ip))
     print("The given ip is " + ip)
     return ip
 
@@ -114,7 +124,7 @@ def menu():
     aristotleMapping = get_csv_file("aristotleMapping.csv")
 
     while loop_condition:
-        print(nextAvailableNat1sourceIp)
+
         print("\nWelcome to AristotleModule\n")
         print("\nPlease enter a number for what you want to do.\n")
         print("Enter 1 Request a new connection")
@@ -153,7 +163,8 @@ def menu():
             menu()
 
         elif menu_choice == 4:
-
+            aristotleHash = input("\nWhat is AristotleHash you want to read partially)\n")
+            get_export_Coehloline_with_aristotleHash(aristotleHash, aristotleMapping)
             menu()
 
         elif menu_choice == 5:
