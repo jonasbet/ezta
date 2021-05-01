@@ -12,7 +12,7 @@ fileName = 'aristotleMapping.csv'
 
 
 
-    #https://www.geeksforgeeks.org/update-column-value-of-csv-in-python/  
+    #https://www.geeksforgeeks.org/update-column-value-of-csv-in-python/
 # importing the pandas library
 #import pandas as pd
   # reading the csv file
@@ -23,10 +23,11 @@ fileName = 'aristotleMapping.csv'
 #df.to_csv("AllDetails.csv", index=False)
   #print(df)
 
-def get_export_Coehloline_with_aristotleHash(aristotleHash, df):
-    #oneLineExport = df.loc[df['aristotleHash'] == aristotleHash]
+def get_aristotleLine_with_aristotleHash(aristotleHash, df):
+    #aristotleLine sample
+    # 94dc03bf-2d4f-378a-a8ac-9e5f76ee3850#7.7.7.7#8010.0.0.1#80.80.80.80#10.0.0.1#10.0.0.1#10.0.0.1
     #'aristotleHash','sourceIp', 'sourcePort', 'destIp', 'aristotleIp','destPort','heraclitusIp'
-    #serverIp = df.loc[df['destPort']== int(destPort), 'serverIp'].iat[0]
+    # aristotleHash,sourceIp,sourcePort,destIp,aristotleIp,destPort,heraclitusIp
     sourceIp = df.loc[df['aristotleHash']== aristotleHash, 'sourceIp'].iat[0]
     sourcePort = str(df.loc[df['aristotleHash']== aristotleHash, 'sourcePort'].iat[0])
     destIp = df.loc[df['aristotleHash']== aristotleHash, 'destIp'].iat[0]
@@ -34,8 +35,8 @@ def get_export_Coehloline_with_aristotleHash(aristotleHash, df):
     destPort = df.loc[df['aristotleHash']== aristotleHash, 'aristotleIp'].iat[0]
     heraclitusIp = df.loc[df['aristotleHash']== aristotleHash, 'aristotleIp'].iat[0]
     oneLineExport = aristotleHash + '#' + sourceIp + '#' + sourcePort +\
-      aristotleIp + '#'  +  destIp + '#' + aristotleIp +'#' + destPort + '#' + heraclitusIp
-    print( oneLineExport )
+    aristotleIp + '#' + destIp + '#' + aristotleIp + '#' + destPort + '#' + heraclitusIp
+    print(oneLineExport)
 
 
 def add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, df):
@@ -47,12 +48,12 @@ def add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, df):
     print( df.loc[df['aristotleHash'] == aristotleHash] )
     print("This is the heraclitusIp{}".format( heraclitusIp))
     print("This is the aristotleHash {}".format(aristotleHash))
-    
+
     df['heraclitusIp'] = df['heraclitusIp'].replace({aristotleHash: heraclitusIp})
     print( df.loc[df['aristotleHash'] == aristotleHash] )
     # writing into the file
     df.to_csv(fileName, index=False)
-    get_export_Coehloline_with_aristotleHash(aristotleHash, df)
+    get_aristotleLine_with_aristotleHash(aristotleHash, df)
 
 
 
@@ -132,6 +133,7 @@ def menu():
         print("Enter 3 Add HeraclitusIp by AristotleHash")
         print("Enter 4 Check active connections by SourceIp")
         print("Enter 5 Check active connections by SourcePort")
+        print("Enter 6 Get AristotleLine by AristotleHash")
         print("Enter 0 To exit application.")
         menu_choice = int(input("\nWhat would you like to do? \n"))
 
@@ -164,14 +166,17 @@ def menu():
             menu()
 
         elif menu_choice == 4:
-            aristotleHash = input("\nWhat is AristotleHash you want to read partially)\n")
-            get_export_Coehloline_with_aristotleHash(aristotleHash, aristotleMapping)
             menu()
 
         elif menu_choice == 5:
             menu()
+
+        elif menu_choice == 6:
+            aristotleHash = input("\nPlease introduce the AristotleHash of the AristotleLine you are requesting.\n")
+            get_aristotleLine_with_aristotleHash(aristotleHash, aristotleMapping)
+            menu()
         else:
-            print("\nSorry the valid options are between 0 and 5.\n")
+            print("\nSorry the valid options are between 0 and 6.\n")
             menu()
 menu()
 
