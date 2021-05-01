@@ -2,9 +2,26 @@
 import pandas
 import csv
 
-
-
-
+def get_SDN_orchestration_by_aristotleHash(aristotleHash, aristotleCoelhoMapping, heraclitoCoelhoMapping):
+    sourceIp = aristotleCoelhoMapping.loc[aristotleCoelhoMapping['aristotleHash'] == aristotleHash, 'sourceIp'].iat[0]
+    sourcePort = str(aristotleCoelhoMapping.loc[aristotleCoelhoMapping['aristotleHash'] == aristotleHash, 'sourcePort'].iat[0])
+    destIp = aristotleCoelhoMapping.loc[aristotleCoelhoMapping['aristotleHash'] == aristotleHash, 'destIp'].iat[0]
+    aristotleIp = aristotleCoelhoMapping.loc[aristotleCoelhoMapping['aristotleHash'] == aristotleHash, 'aristotleIp'].iat[0]
+    serverIp = heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'serverIp'].iat[0]
+    destPort = str(heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'destPort'].iat[0])
+    serverPort = str(heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'serverPort'].iat[0])
+    heraclitusIp = heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'heraclitusIp'].iat[0]
+    heraclitusPort = str(heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'heraclitusPort'].iat[0])
+    print("\n \n EndToEnd connection information for AristotleHash: {} .................    \n".format(aristotleHash))
+    print("ZoneOne: makes a request from SourceIp:{}, SourcePort:{}      ".format(sourceIp, sourcePort))
+    print("ZoneTwo: receives the request on DestIp:{}, DestPort:{} ".format(destIp, destPort))
+    print("AristotleModule is the only ones that know the SourceIp of ZoneOne and NATs it into AristotleIp:{}".format(aristotleIp))
+    print("AristotleModule does not know the ServerIp but uses HeraclitusIp:{}  to get to the server.   \n".format(heraclitusIp))
+    print("AristotleModule does not know the ServerPort but is uses the original destPort:{} to communicate with the server".format(destPort))
+    print("HeraclitusModule is only one that know the Server:Ip {} and the ServerPort:{}      ".format(serverIp, serverPort))
+    print("HeraclitusModule nats the serverPort with HeraclitusPort: {}      ".format(heraclitusPort))
+    print("...and no-one has the full information about this dynamic self-allocated subnetting that enables this end-to-end connection ".format())
+    print("\n EndToEnd connection information for AristotleHash: {} .................    \n".format(aristotleHash))
 
 def import_aristotleLine(aristotleLine, df, fileName):
     # aristotleLineSamle
@@ -81,7 +98,7 @@ def menu():
         print("Enter 2 Input a HeraclitusLine")
         print("Enter 3 Show AristotleCoelhoMapping")
         print("Enter 4 Show HeraclitoCoehloMapping")
-        print("Enter 5 ....")
+        print("Enter 5 Show full orchestration by AristotleHash")
         print("Enter 0 To exit application.")
         menu_choice = int(input("\nWhat would you like to do? \n"))
 
@@ -105,6 +122,8 @@ def menu():
             print(heraclitoCoelhoMapping)
             menu()
         elif menu_choice == 5:
+            aristotleHash = input("Please provide the AristotleHash you want to orchestrate.")
+            get_SDN_orchestration_by_aristotleHash(aristotleHash, aristotleCoelhoMapping, heraclitoCoelhoMapping)
             menu()
         else:
             print("\nSorry the valid options are between 0 and 5.\n")
