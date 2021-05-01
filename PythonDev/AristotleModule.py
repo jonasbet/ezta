@@ -23,7 +23,7 @@ fileName = 'aristotleMapping.csv'
 #df.to_csv("AllDetails.csv", index=False)
   #print(df)
 
-def get_aristotleLine_with_aristotleHash(aristotleHash, df):
+def get_aristotleLine_by_aristotleHash(aristotleHash, df):
     #aristotleLine sample
     # 94dc03bf-2d4f-378a-a8ac-9e5f76ee3850#7.7.7.7#8010.0.0.1#80.80.80.80#10.0.0.1#10.0.0.1#10.0.0.1
     #'aristotleHash','sourceIp', 'sourcePort', 'destIp', 'aristotleIp','destPort','heraclitusIp'
@@ -53,7 +53,7 @@ def add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, df):
     print( df.loc[df['aristotleHash'] == aristotleHash] )
     # writing into the file
     df.to_csv(fileName, index=False)
-    get_aristotleLine_with_aristotleHash(aristotleHash, df)
+    get_aristotleLine_by_aristotleHash(aristotleHash, df)
 
 
 
@@ -65,10 +65,10 @@ def get_csv_file(fileName):
     return df
 
 def userIpInput():
-    ipA = input("\n Please enter value of the fist octet in binary...")
-    ipB = input("\n Please enter value of the second octet in binary...")
-    ipC = input("\n Please enter value of the third octet in binary...")
-    ipD = input("\n Please enter value of the fourth octet in binary...")
+    ipA = input("\n Please enter value of the fist octet (decimal values are expected)...")
+    ipB = input("\n Please enter value of the second octet (decimal values are expected)...")
+    ipC = input("\n Please enter value of the third octet (decimal values are expected)...")
+    ipD = input("\n Please enter value of the fourth (decimal values are expected)...")
 
     ip = ipA + "." + ipB + "." + ipC + "." + ipD
    # print(ipaddress.ip_address(ip))
@@ -142,9 +142,9 @@ def menu():
             print("\n Thanks for using the application")
             exit(0)
         elif menu_choice == 1:
-            print("\n Please provide the sourceIP in binary form octet by octet....")
+            print("\n Please provide the sourceIP in decimal (octet by octet)....")
             sourceIp = userIpInput()
-            print("\n Please provide the dstIP in binary form octet by octet....")
+            print("\n Please provide the dstIP in decimal...")
             destIp = userIpInput()
             sourcePort = input("\nWhat is Source port)\n")
             destPort = input("\nWhat is Destination port)\n")
@@ -173,7 +173,7 @@ def menu():
 
         elif menu_choice == 6:
             aristotleHash = input("\nPlease introduce the AristotleHash of the AristotleLine you are requesting.\n")
-            get_aristotleLine_with_aristotleHash(aristotleHash, aristotleMapping)
+            get_aristotleLine_by_aristotleHash(aristotleHash, aristotleMapping)
             menu()
         else:
             print("\nSorry the valid options are between 0 and 6.\n")

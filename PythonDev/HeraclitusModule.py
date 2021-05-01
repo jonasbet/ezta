@@ -5,7 +5,7 @@ import random
 import csv
 
 
-def get_export_Coehloline_with_aristotleHash(aristotleHash, df):
+def get_heraclitusLine_by_aristotleHash(aristotleHash, df):
     print(df)
 #aristotleHash,serverIp,destPort,serverPort,heraclitusIp,heraclitusPort
     serverIp = df.loc[df['aristotleHash']== aristotleHash, 'serverIp'].iat[0]
@@ -70,7 +70,7 @@ def menu():
         print("Enter 1 Request a new Subnet")
         print("Enter 2 Update serverList")
         print("Enter 3 Show HeraclitusMapping")
-        print("Enter 4 .....")
+        print("Enter 4 Get HeraclitusLine by AristotleHash")
         print("Enter 5 ....")
         print("Enter 0 To exit application.")
         menu_choice = int(input("\nWhat would you like to do? \n"))
@@ -81,7 +81,7 @@ def menu():
             exit(0)
         elif menu_choice == 1:
             aristotleHash = input("\n Please provide the AristotleHash.")
-            destPort = input("\n Please provide the destPort in binary.")
+            destPort = input("\n Please provide the destPort in decimal.")
 
             print("\nYour data is now saved as  aristotleHash = {}, destPort = {}. \n".format(
                 aristotleHash, destPort))
@@ -96,7 +96,7 @@ def menu():
             write_line_HeraclitusMapping(fileName, aristotleHash, serverIp, destPort, serverPort, heraclitusIp,
                                          heraclitusPort)
             heraclitusMapping = get_csv_file(fileName)
-            get_export_Coehloline_with_aristotleHash(aristotleHash, heraclitusMapping)
+            get_heraclitusLine_by_aristotleHash(aristotleHash, heraclitusMapping)
             menu()
 
         elif menu_choice == 2:
@@ -106,6 +106,8 @@ def menu():
             print(heraclitusMapping)
             menu()
         elif menu_choice == 4:
+            aristotleHash = input("\nPlease introduce the AristotleHash of the AristotleLine you are requesting.\n")
+            get_heraclitusLine_by_aristotleHash(aristotleHash, heraclitusMapping)
             menu()
         elif menu_choice == 5:
             menu()
