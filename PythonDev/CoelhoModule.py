@@ -1,6 +1,7 @@
 
 import pandas
 import csv
+import ipaddress
 
 def get_SDN_orchestration_by_aristotleHash(aristotleHash, aristotleCoelhoMapping, heraclitoCoelhoMapping):
     sourceIp = aristotleCoelhoMapping.loc[aristotleCoelhoMapping['aristotleHash'] == aristotleHash, 'sourceIp'].iat[0]
@@ -12,16 +13,29 @@ def get_SDN_orchestration_by_aristotleHash(aristotleHash, aristotleCoelhoMapping
     serverPort = str(heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'serverPort'].iat[0])
     heraclitusIp = heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'heraclitusIp'].iat[0]
     heraclitusPort = str(heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'heraclitusPort'].iat[0])
+    heraclitusIpAddress = (ipaddress.ip_address(heraclitusIp))
     print("\n \n EndToEnd connection information for AristotleHash: {} .................    \n".format(aristotleHash))
     print("ZoneOne: makes a request from SourceIp:{}, SourcePort:{}      ".format(sourceIp, sourcePort))
     print("ZoneTwo: receives the request on DestIp:{}, DestPort:{} ".format(destIp, destPort))
     print("AristotleModule is the only ones that know the SourceIp of ZoneOne and NATs it into AristotleIp:{}".format(aristotleIp))
-    print("AristotleModule does not know the ServerIp but uses HeraclitusIp:{}  to get to the server.   \n".format(heraclitusIp))
+    print("AristotleModule does not know the ServerIp but uses HeraclitusIp:{}  to get to the server.   ".format(heraclitusIp))
     print("AristotleModule does not know the ServerPort but is uses the original destPort:{} to communicate with the server".format(destPort))
     print("HeraclitusModule is only one that know the Server:Ip {} and the ServerPort:{}      ".format(serverIp, serverPort))
     print("HeraclitusModule nats the serverPort with HeraclitusPort: {}      ".format(heraclitusPort))
     print("...and no-one has the full information about this dynamic self-allocated subnetting that enables this end-to-end connection ".format())
-    print("\n EndToEnd connection information for AristotleHash: {} .................    \n".format(aristotleHash))
+    print("\nEndToEnd connection information for AristotleHash: {} .................    \n".format(aristotleHash))
+    print("\n\nSDN Firewall orchestration for the AristotleHash:{} .................    \n".format(aristotleHash))
+    print("CoelhoModule creates the subnet{}/30      ".format(heraclitusIpAddress-1))
+    print("CoelhoModule binds the networks interface on the internal firewall with the HeraclituIpPlusOne:{}    ".format(heraclitusIpAddress +1))
+    print("CoelhoModule binds the networks interface on the external firewall with the HeraclitusIp:{}    ".format(heraclitusIpAddress))
+    print("CoelhoModule will create an ACL on the external firewall HeraclitusModule to allow traffic coming from AristotleIp:{} \
+          on DestPort:{}".format(aristotleIp, destPort))
+    print("CoelhoModule will create an ACL on the internal firewall HeraclitusModule to allow traffic coming from ServerIp:{} on HeraclitusPort:{}    "
+          .format(heraclitusIp,heraclitusPort))
+    print("Making this fresh subnet an exclusive passage between the ZoneOne and ZoneFour. Even though they dont know the \
+     network details of each other")
+    print("\nSDN Firewall orchestration for the AristotleHash:{} .................    \n".format(aristotleHash))
+
 
 def import_aristotleLine(aristotleLine, df, fileName):
     # aristotleLineSamle

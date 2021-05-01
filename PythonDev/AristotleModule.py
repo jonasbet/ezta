@@ -6,6 +6,7 @@ import csv
 
 secretHashSeed = '00010203-0405-0607-0809-0a0b0c0d0e0f'
 fileName = 'aristotleMapping.csv'
+fileNameAristotleIp = 'lastUsedAristotleIp.csv'
 
 #we are simulating the fist natting on the external firewall
 #10.0.0.1 is the first nattable address and they will be used sequentially
@@ -95,24 +96,35 @@ def write_line_Aristotle_Mapping(fileName,aristotleHash,sourceIp, sourcePort, de
         writer.writerow({'aristotleHash': aristotleHash,'sourceIp': sourceIp, 'sourcePort':sourcePort,'destIp': destIp,
                          'aristotleIp':aristotleIp, 'destPort': destPort, 'heraclitusIp' : heraclitusIp})
 
-def request_new_connection(sourceIp, sourcePort, destIp, destPort, nextAvailableNat1sourceIp):
+def get_ramdom_aristotleIp(df,fileName):
+
+    aristotleIp = ipaddress.ip_address(df.loc[df['controlDigit']==0,'ip'].iat[0])
+    nextAristotleIp = aristotleIp + 4
+    print(nextAristotleIp)
+    with open(fileName, mode='w') as csv_file:
+        fieldnames = ['ip', 'controlDigit']
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerow({'ip': nextAristotleIp, 'controlDigit': 0})
+    return aristotleIp
+
+
+
+def request_new_connection(sourceIp, sourcePort, destIp, destPort, df, fileNameAristotleIp, fileNameAristotleMapping):
     #aristotleIp is the first natting done on the external firewall.
     #this translation is done automatically on the firewall = not managed by this module
     #it will be increased sequentially just to reproduce this compexity on the module
-    aristotleIp = nextAvailableNat1sourceIp
-
-    print("\nYour data is now saved as  sourceIp = {}, sourcePort = {}, destIp = {}, destPort = {}. \n".format(sourceIp, sourcePort, destIp, destPort))
+    aristotleIp = get_ramdom_aristotleIp(df, fileNameAristotleIp)
+    print("\nYour data is now saved as  sourceIp = {}, sourcePort = {}, destIp = {}, destPort = {} and \
+    AristotleIp = {}. \n".format(sourceIp, sourcePort, destIp, destPort, aristotleIp))
     aristotleHash = hash_creator(sourceIp, sourcePort)
-    print(aristotleHash)
+    print("\nPlease input the aristotleHash = {} and destPort = {} on the HeraclitusModule. \n".format(
+        aristotleHash, destPort))
     # herclitusIp will generated on heraclitusModule at a later stage
     # so far we use the uniquesness of aristotleHash to make the change for heraclitusIp later as the
     # value is received from heraclitusModule
     heraclitusIp = aristotleHash
-
-    nat1SourceIP = nextAvailableNat1sourceIp
-    print("\nYour data is now saved as    nat1SourceIP = {}, nextAvailableNat1sourceIp  = {}. \n".format(  nat1SourceIP , nextAvailableNat1sourceIp))
-    print("\nWe can now pass HeraclitusModule   nat1SourceIP = {}, aristotleHash  = {}. \n".format(  nat1SourceIP , aristotleHash))
-    write_line_Aristotle_Mapping(fileName, aristotleHash, sourceIp, sourcePort, destIp, aristotleIp, destPort,
+    write_line_Aristotle_Mapping(fileNameAristotleMapping, aristotleHash, sourceIp, sourcePort, destIp, aristotleIp, destPort,
                                  heraclitusIp)
 
 #aristotleHash,sourceIp, sourcePort, destIp, aristotleIp,destPort,heraclitusIp
@@ -121,8 +133,8 @@ def request_new_connection(sourceIp, sourcePort, destIp, destPort, nextAvailable
 
 def menu():
     loop_condition = True
-    nextAvailableNat1sourceIp = ipaddress.IPv4Address('10.0.0.1')
     aristotleMapping = get_csv_file("aristotleMapping.csv")
+    nextAristotleIpDf = get_csv_file("lastUsedAristotleIp.csv")
 
     while loop_condition:
 
@@ -148,11 +160,8 @@ def menu():
             destIp = userIpInput()
             sourcePort = input("\nWhat is Source port)\n")
             destPort = input("\nWhat is Destination port)\n")
-            request_new_connection(sourceIp, sourcePort, destIp, destPort, nextAvailableNat1sourceIp)
-            print("\nYour data is now saved as    nextAvailableNat1sourceIp  = {}. \n".format(
-                nextAvailableNat1sourceIp))
-            nextAvailableNat1sourceIp = nextAvailableNat1sourceIp + 1
-
+            request_new_connection(sourceIp, sourcePort, destIp, destPort, nextAristotleIpDf,
+                                   fileNameAristotleIp, fileName)
             menu()
 
         elif menu_choice == 2:
