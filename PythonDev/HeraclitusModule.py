@@ -90,7 +90,7 @@ def menu():
             menu()
 
         elif menu_choice == 4:
-            aristotleHash = input("\nPlease introduce the AristotleHash of the AristotleLine you are requesting.\n")
+            aristotleHash = input("\nPlease introduce the AristotleHash of the HeraclitoLine you are requesting.\n")
             heraclitusLine = get_heraclitusLine_by_aristotleHash(aristotleHash, heraclitusMapping)
             print("\nPlease input the following line on CoelhoModule (opt2): \n{}\n".format(heraclitusLine))
             menu()
