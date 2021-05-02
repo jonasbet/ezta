@@ -7,13 +7,12 @@ import csv
 
 def get_heraclitusLine_by_aristotleHash(aristotleHash, df):
     print(df)
-#aristotleHash,serverIp,destPort,serverPort,heraclitusIp,heraclitusPort
+#aristotleHash,serverIp,serverPort,heraclitusIp,heraclitusPort
     serverIp = df.loc[df['aristotleHash']== aristotleHash, 'serverIp'].iat[0]
-    destPort = str(df.loc[df['aristotleHash'] == aristotleHash, 'destPort'].iat[0])
     serverPort = str(df.loc[df['aristotleHash']== aristotleHash, 'serverPort'].iat[0])
     heraclitusIp = df.loc[df['aristotleHash']== aristotleHash, 'heraclitusIp'].iat[0]
     heraclitusPort = str(df.loc[df['aristotleHash']== aristotleHash, 'heraclitusPort'].iat[0])
-    oneLineExport = aristotleHash + '#' + serverIp + '#' + destPort + '#' +\
+    oneLineExport = aristotleHash + '#' + serverIp + '#'  +\
     serverPort + '#' + heraclitusIp  +   '#' +  heraclitusPort
     print( oneLineExport )
 

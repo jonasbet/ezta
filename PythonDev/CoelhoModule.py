@@ -9,7 +9,7 @@ def get_SDN_orchestration_by_aristotleHash(aristotleHash, aristotleCoelhoMapping
     destIp = aristotleCoelhoMapping.loc[aristotleCoelhoMapping['aristotleHash'] == aristotleHash, 'destIp'].iat[0]
     aristotleIp = aristotleCoelhoMapping.loc[aristotleCoelhoMapping['aristotleHash'] == aristotleHash, 'aristotleIp'].iat[0]
     serverIp = heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'serverIp'].iat[0]
-    destPort = str(heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'destPort'].iat[0])
+    destPort = str(aristotleCoelhoMapping.loc[aristotleCoelhoMapping['aristotleHash'] == aristotleHash, 'destPort'].iat[0])
     serverPort = str(heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'serverPort'].iat[0])
     heraclitusIp = heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'heraclitusIp'].iat[0]
     heraclitusPort = str(heraclitoCoelhoMapping.loc[heraclitoCoelhoMapping['aristotleHash'] == aristotleHash, 'heraclitusPort'].iat[0])
@@ -56,11 +56,13 @@ def import_HeraclitusLine(heraclitusLine, df, fileName):
     #'aristotleHash','sourceIp', 'sourcePort', 'destIp', 'aristotleIp','destPort','heraclitusIp'
     # aristotleHash,serverIp,destPort,serverPort,heraclitusIp,heraclitusPort
     # 94dc03bf-2d4f-378a-a8ac-9e5f76ee3850#10.1.0.1#80#54319#10.10.0.1#64263
-    aristotleHash,serverIp,destPort,serverPort,heraclitusIp,heraclitusPort = heraclitusLine.split('#')
-    oneLineExport = aristotleHash + '#' + serverIp + '#' + destPort + '#' +\
-    serverPort + '#' + heraclitusIp  +   '#' +  heraclitusPort
+    aristotleHash,serverIp,serverPort,heraclitusIp,heraclitusPort = heraclitusLine.split('#')
+    oneLineExport = aristotleHash + '#' + serverIp + '#' + \
+    '#' + heraclitusIp  +   '#' +  heraclitusPort
     print( oneLineExport )
-    write_line_HeraclitusMapping(fileName, aristotleHash, serverIp, destPort, serverPort, heraclitusIp, heraclitusPort)
+    write_line_HeraclitusMapping(fileName, aristotleHash, serverIp, serverPort, heraclitusIp, heraclitusPort)
+    # (fileName, aristotleHash, serverIp, destPort, serverPort, heraclitusIp, heraclitusPort)
+    # (fileName, aristotleHash, serverIp,  serverPort, heraclitusIp, heraclitusPort)
 
 
 def get_csv_file(fileName):
@@ -80,17 +82,17 @@ def write_line_Aristotle_Mapping(fileName,aristotleHash,sourceIp, sourcePort, de
         writer.writerow({'aristotleHash': aristotleHash,'sourceIp': sourceIp, 'sourcePort':sourcePort,'destIp': destIp,
                          'aristotleIp':aristotleIp, 'destPort': destPort, 'heraclitusIp' : heraclitusIp})
 
-def write_line_HeraclitusMapping(fileName, aristotleHash, serverIp, destPort, serverPort, heraclitusIp, heraclitusPort):
+def write_line_HeraclitusMapping(fileName, aristotleHash, serverIp,  serverPort, heraclitusIp, heraclitusPort):
     with open(fileName, mode='a') as csv_file:
         #aristotleHash,serverIp,destPort,serverPort,heraclitusIp,heraclitusPort
-        fieldnames = ['aristotleHash', 'serverIp', 'destPort', 'serverPort', 'heraclitusIp', 'heraclitusPort']
+        fieldnames = ['aristotleHash', 'serverIp',  'serverPort', 'heraclitusIp', 'heraclitusPort']
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
         #writer.writeheader()
         # writer.writerow({'emp_name': 'John Smith', 'dept': 'Accounting', 'birth_month': 'November'})
         # writer.writerow({'heraclitusPort': , 'aristotleHash': , 'serverIp': 'destPort': , 'serverPort': , 'heraclitusIp': })
 
-        writer.writerow({'aristotleHash':aristotleHash, 'serverIp': serverIp, 'destPort': destPort,
+        writer.writerow({'aristotleHash':aristotleHash, 'serverIp': serverIp,
                          'serverPort': serverPort, 'heraclitusIp': heraclitusIp,'heraclitusPort': heraclitusPort})
 
 
