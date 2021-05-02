@@ -5,8 +5,7 @@ import pandas
 import csv
 
 secretHashSeed = '00010203-0405-0607-0809-0a0b0c0d0e0f'
-fileName = 'aristotleMapping.csv'
-fileNameAristotleIp = 'nextAristotleIp.csv'
+
 
 def get_aristotleLine_by_aristotleHash(aristotleHash, df):
     #aristotleLine sample
@@ -21,16 +20,13 @@ def get_aristotleLine_by_aristotleHash(aristotleHash, df):
     heraclitusIp = df.loc[df['aristotleHash']== aristotleHash, 'heraclitusIp'].iat[0]
     oneLineExport = aristotleHash + '#' + sourceIp + '#' + sourcePort + '#' +\
     destIp + '#' + aristotleIp + '#' + destPort + '#' + heraclitusIp
-    print(oneLineExport)
+    return oneLineExport
 
-def add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, df):
-    print( df.loc[df['aristotleHash'] == aristotleHash] )
-    print("This is the heraclitusIp{}".format( heraclitusIp))
-    print("This is the aristotleHash {}".format(aristotleHash))
+def add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, df, fileName):
     df['heraclitusIp'] = df['heraclitusIp'].replace({aristotleHash: heraclitusIp})
-    print( df.loc[df['aristotleHash'] == aristotleHash] )
     df.to_csv(fileName, index=False)
-    get_aristotleLine_by_aristotleHash(aristotleHash, df)
+    print( "\nThe HeraclitusIP:{} has been added to the AristotleHash:{}. \n "
+           "\nTo get AristotleLine please use opt6\n".format(heraclitusIp, aristotleHash))
 
 def get_csv_file(fileName):
     df = pandas.read_csv(fileName)
@@ -63,11 +59,9 @@ def write_line_Aristotle_Mapping(fileName,aristotleHash,sourceIp, sourcePort, de
         writer.writerow({'aristotleHash': aristotleHash,'sourceIp': sourceIp, 'sourcePort':sourcePort,'destIp': destIp,
                          'aristotleIp':aristotleIp, 'destPort': destPort, 'heraclitusIp' : heraclitusIp})
 
-def get_ramdom_aristotleIp(df,fileName):
-
+def get_next_AristotleIp(df, fileName):
     aristotleIp = ipaddress.ip_address(df.loc[df['controlDigit']==0,'ip'].iat[0])
     nextAristotleIp = aristotleIp + 4
-    print(nextAristotleIp)
     with open(fileName, mode='w') as csv_file:
         fieldnames = ['ip', 'controlDigit']
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
@@ -79,12 +73,12 @@ def request_new_connection(sourceIp, sourcePort, destIp, destPort, df, fileNameA
     #aristotleIp is the first natting done on the external firewall.
     #this translation is done automatically on the firewall = not managed by this module
     #it will be increased sequentially just to reproduce this compexity on the module
-    aristotleIp = get_ramdom_aristotleIp(df, fileNameAristotleIp)
+    aristotleIp = get_next_AristotleIp(df, fileNameAristotleIp)
     print("\nYour data is now saved as  sourceIp = {}, sourcePort = {}, destIp = {}, destPort = {} and \
     AristotleIp = {}. \n".format(sourceIp, sourcePort, destIp, destPort, aristotleIp))
     aristotleHash = hash_creator(sourceIp, sourcePort)
-    print("\nPlease input the aristotleHash = {} and destPort = {} on the HeraclitusModule. \n".format(
-        aristotleHash, destPort))
+    print("\nPlease input the following line on HeraclitusModule to get an HeraclitusIP (opt1): \n"
+          "{}#{}\n".format(aristotleHash, destPort))
     # herclitusIp will generated on heraclitusModule at a later stage
     # so far we use the uniquesness of aristotleHash to make the change for heraclitusIp later as the
     # value is received from heraclitusModule
@@ -94,6 +88,8 @@ def request_new_connection(sourceIp, sourcePort, destIp, destPort, df, fileNameA
 
 def menu():
     loop_condition = True
+    fileNameMapping = 'aristotleMapping.csv'
+    fileNameAristotleIp = 'nextAristotleIp.csv'
     aristotleMapping = get_csv_file("aristotleMapping.csv")
     nextAristotleIpDf = get_csv_file("nextAristotleIp.csv")
 
@@ -103,7 +99,7 @@ def menu():
         print("\nPlease enter a number for what you want to do.\n")
         print("Enter 1 Request a new connection")
         print("Enter 2 Show AristotleMapping")
-        print("Enter 3 Add HeraclitusIp by AristotleHash")
+        print("Enter 3 Add HeraclitusIp")
         print("Enter 4 Check active connections by SourceIp")
         print("Enter 5 Check active connections by SourcePort")
         print("Enter 6 Get AristotleLine by AristotleHash")
@@ -121,7 +117,7 @@ def menu():
             sourcePort = input("\nWhat is Source port)\n")
             destPort = input("\nWhat is Destination port)\n")
             request_new_connection(sourceIp, sourcePort, destIp, destPort, nextAristotleIpDf,
-                                   fileNameAristotleIp, fileName)
+                                   fileNameAristotleIp, fileNameMapping)
             menu()
 
         elif menu_choice == 2:
@@ -129,10 +125,9 @@ def menu():
             menu()
 
         elif menu_choice == 3:
-            aristotleHash = input("\nWhat is AristotleHash you want to update?)\n")
-            heraclitusIp = input("\nWhat is HeraclitusIp you want to add to the Aristotle hash {}?)"
-                                 "\n".format(aristotleHash))
-            add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, aristotleMapping)
+            heraclitusOnAristotleInput = input("\n Please provide the information given by the HeraclitusModule.\n")
+            aristotleHash, heraclitusIp = heraclitusOnAristotleInput.split('#')
+            add_heraclitusIp_by_aristotleHash( aristotleHash, heraclitusIp, aristotleMapping, fileNameMapping)
             menu()
 
         elif menu_choice == 4:
@@ -143,7 +138,8 @@ def menu():
 
         elif menu_choice == 6:
             aristotleHash = input("\nPlease introduce the AristotleHash of the AristotleLine you are requesting.\n")
-            get_aristotleLine_by_aristotleHash(aristotleHash, aristotleMapping)
+            aristotleLine = get_aristotleLine_by_aristotleHash(aristotleHash, aristotleMapping)
+            print("\nPlease input the following line on CoelhoModule (opt1): \n{}\n".format(aristotleLine))
             menu()
 
         else:
