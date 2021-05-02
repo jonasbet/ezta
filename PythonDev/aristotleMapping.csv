@@ -2,3 +2,4 @@ aristotleHash,sourceIp,sourcePort,destIp,aristotleIp,destPort,heraclitusIp
 e39eb94f-8a7e-36c3-a5cd-cf5d4df213af,1.1.1.1,80,2.2.2.2,10.100.0.13,80,e39eb94f-8a7e-36c3-a5cd-cf5d4df213af
 00bbffaa-52e8-395e-acf3-2173dd8d6659,1.1.1.1,443,2.2.2.2,10.100.0.17,443,10.10.0.17
 00bbffaa-52e8-395e-acf3-2173dd8d6659,1.1.1.1,443,2.2.2.2,10.100.0.21,443,10.10.0.21
+edb53efc-ec0c-3dc7-8435-80ab61c5c7c8,1.1.1.1,63300,2.2.2.2,10.100.0.25,443,edb53efc-ec0c-3dc7-8435-80ab61c5c7c8

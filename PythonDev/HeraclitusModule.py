@@ -71,9 +71,9 @@ def menu():
             serverPort = get_ramdom_ephimeralPort_selection()
             heraclitusIp =  get_next_HeraclitusIp(heraclitusIpDf, fileNameNextHeraclitusIp)
             heraclitusPort = get_ramdom_ephimeralPort_selection()
-            write_line_HeraclitusMapping(fileName, aristotleHash, serverIp, destPort, serverPort, heraclitusIp,
+            write_line_HeraclitusMapping(fileNameMapping, aristotleHash, serverIp, destPort, serverPort, heraclitusIp,
                                          heraclitusPort)
-            heraclitusMapping = get_csv_file(fileName)
+            heraclitusMapping = get_csv_file(fileNameMapping)
             print("\nYour data is now saved as ServerIp = {}, destPort = {}, ServerPort = {}, heraclitusIp = {}, "
                   "heraclitusPort = {}. \n".format( serverIp, destPort, serverPort, heraclitusIp, heraclitusPort))
             print("\n Pass the following to AristotleModule to make them aware of the new HeraclitusIp (opt3):"

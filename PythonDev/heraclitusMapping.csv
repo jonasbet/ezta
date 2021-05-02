@@ -3,3 +3,4 @@ aristotleHash,serverIp,destPort,serverPort,heraclitusIp,heraclitusPort
 e39eb94f-8a7e-36c3-a5cd-cf5d4df213af,10.1.0.1,80,50578,10.10.0.13,59643
 00bbffaa-52e8-395e-acf3-2173dd8d6659,10.1.0.7,443,64617,10.10.0.17,52396
 00bbffaa-52e8-395e-acf3-2173dd8d6659,10.1.0.7,443,52508,10.10.0.21,64218
+edb53efc-ec0c-3dc7-8435-80ab61c5c7c8,10.1.0.7,443,62142,10.10.0.29,65457
